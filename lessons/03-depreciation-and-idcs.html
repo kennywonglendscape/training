@@ -85,6 +85,33 @@
         <strong>Important:</strong> The useful life may be longer than the lease term. The depreciation period is based on the asset's economic useful life, not the lease term. This is a key distinction from IDC amortisation.
       </div>
 
+      <h2>RIAD Daily Rate Allocation</h2>
+      <p>In the RIAD method, depreciation (and rental income, and IDCs) are all allocated using a <strong>daily rate</strong> approach with a stateful tracker called <strong>TrackStraightLineAmount</strong>:</p>
+
+      <div class="concept-box">
+        <h5>How TrackStraightLineAmount Works</h5>
+        <ol class="mb-0">
+          <li><strong>Calculates a daily rate</strong> from the total amount and total days (using 30/360 convention)</li>
+          <li><strong>Applies days to each period</strong> &mdash; <code>period amount = daily rate &times; days in period</code></li>
+          <li><strong>Tracks the remaining unrecognised balance</strong> (unrealised depreciation / unearned income) for future periods</li>
+          <li><strong>Handles rounding</strong> by carrying fractional amounts between periods</li>
+          <li><strong>Final period true-up</strong> &mdash; recognises the full remaining balance so the total matches the original amount exactly</li>
+        </ol>
+      </div>
+
+      <h3>Example: Daily Rate Depreciation</h3>
+      <table class="table example-table">
+        <tbody>
+          <tr><td><strong>Asset Cost</strong></td><td>&pound;100,000</td></tr>
+          <tr><td><strong>Residual Value</strong></td><td>&pound;10,000</td></tr>
+          <tr><td><strong>Depreciable Amount</strong></td><td>&pound;90,000</td></tr>
+          <tr><td><strong>Lease Term</strong></td><td>36 months = 1,080 days (30/360)</td></tr>
+          <tr class="table-info"><td><strong>Daily Rate</strong></td><td>&pound;90,000 &divide; 1,080 = &pound;83.33/day</td></tr>
+          <tr class="table-info"><td><strong>Per Month (30 days)</strong></td><td>&pound;83.33 &times; 30 = &pound;2,500</td></tr>
+        </tbody>
+      </table>
+      <p class="standard-ref">The same daily rate approach is used for rental income and IDC amortisation, each with their own TrackStraightLineAmount tracker.</p>
+
       <h2>Initial Direct Costs (IDCs)</h2>
       <p>Initial Direct Costs are incremental costs directly attributable to negotiating and arranging a lease. Examples include:</p>
       <ul>
@@ -164,6 +191,7 @@
         <ul>
           <li><a href="https://lendscape.atlassian.net/wiki/spaces/AF/pages/427688427/Operating+lease+accounting" target="_blank">Operating lease accounting</a> &mdash; straight-line depreciation to residual value, useful life determination (IFRS 16 &sect;84 &gt;&gt; IAS 16 &sect;50-62; ASC 842-30-35-5 &gt;&gt; ASC 360-10-35-2), IDC treatment (IFRS 16 &sect;83; ASC 842-30-25-11), UK capital allowances, US MACRS depreciation</li>
           <li><a href="https://lendscape.atlassian.net/wiki/spaces/AF/pages/444334571/Operating+lease+accounting+within+agreement+module" target="_blank">Operating lease accounting within agreement module</a> &mdash; STRAIGHT_LINE_DEPRECIATION and STRAIGHT_LINE_CHARGE configuration for depreciation and IDC amortisation</li>
+          <li><a href="https://lendscape.atlassian.net/wiki/spaces/AF/pages/510001720/RIAD+Revenue+Processing+Method" target="_blank">RIAD Revenue Processing Method</a> &mdash; TrackStraightLineAmount daily rate allocation, rounding management, final period true-up</li>
         </ul>
       </div>
 
@@ -173,6 +201,7 @@
         <li>IDCs are expensed over the <strong>lease term</strong>, not the useful life</li>
         <li>The useful life of the asset may extend beyond the lease term</li>
         <li>Tax treatment (capital allowances / MACRS) often differs from book accounting</li>
+        <li>RIAD uses <strong>TrackStraightLineAmount</strong> to manage daily rate allocation with rounding and final period true-up</li>
       </ul>
 
       <!-- Mark Complete & Navigation -->

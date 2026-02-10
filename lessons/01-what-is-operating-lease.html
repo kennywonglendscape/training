@@ -114,6 +114,61 @@
         </tbody>
       </table>
 
+      <h2>RIAD: Rental Income And Depreciation</h2>
+      <p>In Lendscape, the operating lease revenue processing method is known as <strong>RIAD</strong> &mdash; <strong>Rental Income And Depreciation</strong>. This is the revenue engine that implements straight-line recognition for operating leases, as distinct from the <strong>EIR</strong> (Effective Interest Rate) method used for finance leases.</p>
+
+      <table class="table example-table">
+        <thead>
+          <tr>
+            <th>Aspect</th>
+            <th>RIAD (Operating Lease)</th>
+            <th>EIR (Finance Lease)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Revenue pattern</strong></td>
+            <td>Straight-line (even distribution)</td>
+            <td>Compound interest (front-loaded)</td>
+          </tr>
+          <tr>
+            <td><strong>Interest rate</strong></td>
+            <td>No interest rate calculation</td>
+            <td>XIRR calculation required</td>
+          </tr>
+          <tr>
+            <td><strong>Asset ownership</strong></td>
+            <td>Remains with lessor</td>
+            <td>Transfers to lessee</td>
+          </tr>
+          <tr>
+            <td><strong>Depreciation</strong></td>
+            <td>Asset depreciation tracked</td>
+            <td>Not tracked by lessor</td>
+          </tr>
+          <tr>
+            <td><strong>Primary income</strong></td>
+            <td>Rental income</td>
+            <td>Finance (interest) income</td>
+          </tr>
+          <tr>
+            <td><strong>Complexity</strong></td>
+            <td>Lower (proportional allocation)</td>
+            <td>Higher (NPV, IRR, adjustments)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="concept-box success">
+        <h5>When to use RIAD</h5>
+        <ul class="mb-0">
+          <li>Operating leases where the lessor retains ownership</li>
+          <li>Even revenue recognition is desired</li>
+          <li>Asset depreciation needs tracking on the lessor's balance sheet</li>
+          <li>Simpler, more transparent accounting is preferred</li>
+        </ul>
+      </div>
+
       <h2>User Story</h2>
       <div class="concept-box success">
         <p class="mb-0"><em>"As an accountant, when my company writes operating leases, I want to account for them in accordance with required accounting standards so that our financial statements accurately reflect the economic substance of our lease arrangements."</em></p>
@@ -124,6 +179,7 @@
         <ul>
           <li><a href="https://lendscape.atlassian.net/wiki/spaces/AF/pages/427688427/Operating+lease+accounting" target="_blank">Operating lease accounting</a> &mdash; high-level user story, income vs tax accounting overview, lease classification</li>
           <li><a href="https://lendscape.atlassian.net/wiki/spaces/AF/pages/444334571/Operating+lease+accounting+within+agreement+module" target="_blank">Operating lease accounting within agreement module</a> &mdash; user stories, configuration of accounting-agreement-types</li>
+          <li><a href="https://lendscape.atlassian.net/wiki/spaces/AF/pages/510001720/RIAD+Revenue+Processing+Method" target="_blank">RIAD Revenue Processing Method</a> &mdash; RIAD vs EIR comparison, when to use each method</li>
         </ul>
       </div>
 
@@ -133,6 +189,7 @@
         <li>The lessor keeps the asset on their balance sheet and depreciates it</li>
         <li>Rental income is typically recognised on a straight-line basis</li>
         <li>Both IFRS 16 and ASC 842 govern lessor accounting for operating leases</li>
+        <li>In Lendscape, the operating lease method is called <strong>RIAD</strong> (Rental Income And Depreciation), distinct from EIR used for finance leases</li>
       </ul>
 
       <!-- Mark Complete & Navigation -->

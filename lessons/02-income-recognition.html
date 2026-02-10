@@ -96,6 +96,66 @@
 
       <p class="standard-ref">Total rental: (12 &times; &pound;1,000) + (12 &times; &pound;1,200) + (12 &times; &pound;1,300) = &pound;42,000. Straight-line = &pound;42,000 &divide; 36 = &pound;1,167/month.</p>
 
+      <h2>30/360 Day Count Convention</h2>
+      <p>In the RIAD method, straight-line allocation uses a <strong>daily rate</strong> approach with the <strong>30/360 day count convention</strong>, where each month is treated as 30 days and each year as 360 days:</p>
+
+      <div class="concept-box">
+        <h5>Daily Rate Formula</h5>
+        <p class="mb-1" style="font-size: 1.05rem;"><strong>Daily Rate</strong> = Total Amount &divide; Total Days (using 30/360)</p>
+        <p class="mb-0" style="font-size: 1.05rem;"><strong>Period Amount</strong> = Daily Rate &times; Days in Period</p>
+      </div>
+
+      <h3>Example: Daily Rate Allocation</h3>
+      <ul>
+        <li>Total rental income: &pound;12,000</li>
+        <li>Lease term: 12 months = 360 days (30/360)</li>
+        <li>Daily rate: &pound;12,000 &divide; 360 = &pound;33.33/day</li>
+        <li>Each month (30 days): &pound;33.33 &times; 30 = &pound;1,000</li>
+        <li>Final month: remaining balance to ensure total = &pound;12,000 exactly</li>
+      </ul>
+
+      <h2>Revenue Processing Scenarios</h2>
+      <p>The RIAD method generates revenue records for different processing scenarios throughout the lease lifecycle:</p>
+
+      <table class="table example-table">
+        <thead>
+          <tr>
+            <th>Scenario</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>OPENING</strong></td>
+            <td>Zero-day opening record showing the initial state (no revenue recognised yet)</td>
+          </tr>
+          <tr>
+            <td><strong>OPENING_WITH_FIRST_DAY_REALISED</strong></td>
+            <td>Opening record with Day 0 revenue recognised (early income recognition option for some jurisdictions)</td>
+          </tr>
+          <tr>
+            <td><strong>PERIOD</strong></td>
+            <td>Regular period processing &mdash; applies the daily rate for the number of days in the period</td>
+          </tr>
+          <tr>
+            <td><strong>FINAL</strong></td>
+            <td>Last period &mdash; recognises all remaining unearned rental income, unrealised depreciation, and unearned charges to ensure totals match exactly</td>
+          </tr>
+          <tr>
+            <td><strong>FINAL_WITH_LAST_DAY_DEFERRED</strong></td>
+            <td>Last period with 1-day reduction (complements early income recognition on OPENING)</td>
+          </tr>
+          <tr>
+            <td><strong>CLOSE_PERIOD</strong></td>
+            <td>Bridging period from last revenue date to a modification date &mdash; generated during lease modifications</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="concept-box warning">
+        <strong>Final Period True-Up:</strong> On the last period, the system recognises all remaining balances rather than using the daily rate. This ensures that the total recognised over the life of the lease equals the original amount exactly, with no rounding residue.
+      </div>
+
       <h2>Variable Lease Payments</h2>
       <p>Variable lease payments are payments that depend on an index, rate, or usage. Under IFRS 16 and ASC 842:</p>
 
@@ -126,6 +186,16 @@
           <li>Treat the modified lease as a <strong>new lease</strong> from the modification date</li>
         </ol>
       </div>
+
+      <h3>RIAD Modification Processing</h3>
+      <p>When a lease is modified under the RIAD method, the system:</p>
+      <ol>
+        <li>Creates a <strong>CLOSE_PERIOD</strong> from the last revenue date to the modification effective date</li>
+        <li>Uses pre-modification daily rates to recognise revenue up to the modification date</li>
+        <li><strong>Recalculates</strong> forward-looking daily rates with the modified amounts and remaining term</li>
+        <li>Generates new PERIOD records using the updated daily rates</li>
+        <li>Maintains unearned balance continuity across the modification boundary</li>
+      </ol>
 
       <p>A modification is treated as a <strong>separate contract</strong> if it:</p>
       <ul>
@@ -168,6 +238,7 @@
         <ul>
           <li><a href="https://lendscape.atlassian.net/wiki/spaces/AF/pages/427688427/Operating+lease+accounting" target="_blank">Operating lease accounting</a> &mdash; IFRS 16 &sect;81 and ASC 842-30-25-11 straight-line rental income recognition, variable lease payments (ASC 842-30-25-11b), collectibility (ASC 842-30-25-12, 842-30-25-13), modifications (ASC 842-10-25-15)</li>
           <li><a href="https://lendscape.atlassian.net/wiki/spaces/AF/pages/444334571/Operating+lease+accounting+within+agreement+module" target="_blank">Operating lease accounting within agreement module</a> &mdash; straight-line recognition configuration (RENTAL_INCOME_AND_DEPRECIATION method), charge recognition methods</li>
+          <li><a href="https://lendscape.atlassian.net/wiki/spaces/AF/pages/510001720/RIAD+Revenue+Processing+Method" target="_blank">RIAD Revenue Processing Method</a> &mdash; 30/360 day count convention, processing scenarios (OPENING, PERIOD, FINAL, CLOSE_PERIOD), daily rate allocation, final period true-up, modification handling</li>
         </ul>
       </div>
 
@@ -178,6 +249,8 @@
         <li>Variable payments based on usage are recognised when the event occurs, not straight-lined</li>
         <li>Lease modifications (if not a separate contract) are treated as a new lease from the modification date</li>
         <li>When collectibility is not probable, income recognition is limited to cash collected</li>
+        <li>RIAD uses a <strong>30/360 day count</strong> convention with daily rate allocation</li>
+        <li>The final period performs a <strong>true-up</strong> to eliminate any rounding residue</li>
       </ul>
 
       <!-- Mark Complete & Navigation -->

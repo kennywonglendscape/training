@@ -142,6 +142,92 @@
       </div>
       <p class="standard-ref">Depreciation: (&pound;60,000 &minus; &pound;12,000) &divide; 30 months = &pound;1,600/month. IDC: &pound;900 &divide; 3 = &pound;300/month.</p>
 
+      <h2>RIAD Output Records: ALIR &amp; ALCR</h2>
+      <p>The RIAD revenue processing method produces two types of output records that populate the revenue table:</p>
+
+      <div class="row g-3 mb-3">
+        <div class="col-md-6">
+          <div class="concept-box success">
+            <h5>ALIR &mdash; Asset Level Interest Revenue</h5>
+            <p class="mb-1">Covers the <strong>core lease economics</strong>:</p>
+            <ul class="mb-0">
+              <li>Rental income (straight-line)</li>
+              <li>Unearned rental income (remaining balance)</li>
+              <li>Book depreciation</li>
+              <li>Unrealised depreciation (remaining balance)</li>
+              <li>Asset net book value</li>
+              <li>Cash flow events (asset &amp; rental)</li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="concept-box">
+            <h5>ALCR &mdash; Asset Level Charge Revenue</h5>
+            <p class="mb-1">Covers <strong>fee and charge components</strong> (e.g., IDCs):</p>
+            <ul class="mb-0">
+              <li>Charge amount (straight-line amortisation)</li>
+              <li>Unearned charge (remaining balance)</li>
+              <li>Charge cash flow events</li>
+              <li>One ALCR record per charge type per period</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <h3>Mapping RIAD Output to Revenue Table</h3>
+      <div class="table-responsive">
+        <table class="table example-table">
+          <thead>
+            <tr>
+              <th>Revenue Table Column</th>
+              <th>Source</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>rental_income</code></td>
+              <td>ALIR</td>
+              <td>Straight-line rental income for the period (daily rate &times; days)</td>
+            </tr>
+            <tr>
+              <td><code>depreciation</code></td>
+              <td>ALIR</td>
+              <td>Book depreciation for the period (daily rate &times; days)</td>
+            </tr>
+            <tr>
+              <td><code>asset_net_book_value</code></td>
+              <td>ALIR</td>
+              <td>Asset cost minus cumulative depreciation</td>
+            </tr>
+            <tr>
+              <td><code>asset_cash_flow_event</code></td>
+              <td>ALIR</td>
+              <td>Asset purchase/disposal cash flows</td>
+            </tr>
+            <tr>
+              <td><code>rental_income_cash_flow_event</code></td>
+              <td>ALIR</td>
+              <td>Cash received from lessee for rentals</td>
+            </tr>
+            <tr>
+              <td><code>charge_cash_flow_event</code></td>
+              <td>ALCR</td>
+              <td>Cash flows for charges (IDCs, fees)</td>
+            </tr>
+            <tr>
+              <td><code>rental_prepayment_or_accrual</code></td>
+              <td>Derived</td>
+              <td>Cumulative difference between cash received and income recognised</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="concept-box warning">
+        <strong>Note:</strong> Each period generates one ALIR record for the core lease and one ALCR record per charge. The revenue table row is assembled by combining these records for the same period.
+      </div>
+
       <h2>System Configuration</h2>
 
       <h3>accounting-agreement-types</h3>
@@ -201,6 +287,7 @@
         <ul>
           <li><a href="https://lendscape.atlassian.net/wiki/spaces/AF/pages/444334571/Operating+lease+accounting+within+agreement+module" target="_blank">Operating lease accounting within agreement module</a> &mdash; revenue table column definitions (asset_cash_flow_event, rental_income_cash_flow_event, charge_cash_flow_event, rental_prepayment_or_accrual, asset_net_book_value, etc.), charge-accounting-types configuration, RENTAL_INCOME_AND_DEPRECIATION method</li>
           <li><a href="https://lendscape.atlassian.net/wiki/spaces/AF/pages/507543580/Required+Worked+Examples+for+Operating+Lease+Revenue" target="_blank">Required Worked Examples for Operating Lease Revenue</a> &mdash; worked examples and expected revenue table outputs</li>
+          <li><a href="https://lendscape.atlassian.net/wiki/spaces/AF/pages/510001720/RIAD+Revenue+Processing+Method" target="_blank">RIAD Revenue Processing Method</a> &mdash; ALIR and ALCR output record structures, field definitions, mapping to revenue table columns</li>
           <li><a href="https://lendscape.atlassian.net/wiki/spaces/AF/pages/427688427/Operating+lease+accounting" target="_blank">Operating lease accounting</a> &mdash; tactical approach for accounting within agreement module, comparison of preferred vs tactical models</li>
         </ul>
       </div>
@@ -209,6 +296,7 @@
       <ul>
         <li>The revenue table is a period-by-period schedule of income, depreciation, and net book value</li>
         <li>Operating leases add columns for asset cash flows, rental cash flows, charge cash flows, and prepayment/accrual tracking</li>
+        <li>RIAD produces <strong>ALIR</strong> records (core lease: rental income, depreciation, NBV) and <strong>ALCR</strong> records (charges: IDC amortisation, fees)</li>
         <li>The <strong>RENTAL_INCOME_AND_DEPRECIATION</strong> method drives the operating lease accounting</li>
         <li>Three charge-accounting-types handle the different calculations: rental income, depreciation, and IDC amortisation</li>
       </ul>

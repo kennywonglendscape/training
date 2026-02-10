@@ -259,6 +259,50 @@ const QuizEngine = {
       ],
       answer: 1,
       explanation: 'The asset_cash_flow_event column records cash flow events related to the underlying asset itself, such as the initial purchase or final disposal/sale.'
+    },
+    {
+      q: 'What does RIAD stand for?',
+      options: [
+        'Revenue Interest And Depreciation',
+        'Rental Income And Depreciation',
+        'Recognised Income And Deductions',
+        'Revenue In Accounting Data'
+      ],
+      answer: 1,
+      explanation: 'RIAD stands for Rental Income And Depreciation — the revenue processing method for operating leases in Lendscape.'
+    },
+    {
+      q: 'Which day count convention does RIAD use for straight-line allocation?',
+      options: [
+        'Actual/Actual',
+        'Actual/365',
+        '30/360',
+        'Actual/360'
+      ],
+      answer: 2,
+      explanation: 'RIAD uses the 30/360 day count convention, where each month is treated as 30 days and each year as 360 days.'
+    },
+    {
+      q: 'What is the purpose of the TrackStraightLineAmount component in RIAD?',
+      options: [
+        'To calculate the effective interest rate',
+        'To manage daily rate allocation with rounding and final period true-up',
+        'To determine lease classification',
+        'To generate tax returns'
+      ],
+      answer: 1,
+      explanation: 'TrackStraightLineAmount is a stateful tracker that calculates daily rates, applies them to periods, manages rounding between periods, and performs a final period true-up so totals match exactly.'
+    },
+    {
+      q: 'In RIAD, what type of output record covers IDC amortisation?',
+      options: [
+        'ALIR (Asset Level Interest Revenue)',
+        'ALCR (Asset Level Charge Revenue)',
+        'ARIR (Asset Revenue and Interest Record)',
+        'AIDR (Asset Initial Direct Revenue)'
+      ],
+      answer: 1,
+      explanation: 'ALCR (Asset Level Charge Revenue) records cover fee and charge components such as IDC amortisation. ALIR records cover the core lease economics (rental income and depreciation).'
     }
   ],
 
