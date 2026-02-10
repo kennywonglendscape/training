@@ -162,6 +162,18 @@ body {
   color: var(--primary);
 }
 
+/* Glossary tooltips */
+.glossary-term {
+  border-bottom: 1.5px dotted var(--primary);
+  cursor: help;
+  transition: background 0.2s;
+}
+
+.glossary-term:hover {
+  background: rgba(13, 110, 253, 0.08);
+  border-bottom-style: solid;
+}
+
 .example-table {
   font-size: 0.9rem;
 }

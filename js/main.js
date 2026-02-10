@@ -120,6 +120,94 @@ function initLessonPage(lessonId) {
     btn.classList.add('completed');
     btn.innerHTML = '<i class="bi bi-check-circle-fill me-1"></i> Completed';
   });
+
+  initGlossary();
+}
+
+// ---------------------------------------------------------------------------
+// Glossary — auto-wraps first occurrence of key terms with hover tooltips
+// ---------------------------------------------------------------------------
+const GLOSSARY = {
+  'operating lease': 'A lease where the lessor retains substantially all risks and rewards of ownership \u2014 the asset stays on the lessor\u2019s balance sheet',
+  'finance lease': 'A lease that transfers substantially all risks and rewards of ownership to the lessee \u2014 the lessor derecognises the asset',
+  'lessor': 'The party that owns the asset and grants the right to use it under a lease',
+  'lessee': 'The party that obtains the right to use an asset under a lease',
+  'IFRS 16': 'International Financial Reporting Standard 16 \u2014 the global standard governing lease accounting (effective 2019)',
+  'ASC 842': 'Accounting Standards Codification Topic 842 \u2014 the US GAAP standard for lease accounting',
+  'straight-line basis': 'Recognising equal amounts in each accounting period over the term',
+  'residual value': 'The estimated value of an asset at the end of its useful life or lease term',
+  'useful life': 'The period over which an asset is expected to be economically usable',
+  'initial direct costs': 'Incremental costs directly attributable to negotiating and arranging a lease (e.g. broker commissions, legal fees)',
+  'net book value': 'The asset\u2019s original cost minus accumulated depreciation',
+  'depreciation': 'The systematic allocation of an asset\u2019s depreciable amount over its useful life',
+  'RIAD': 'Rental Income And Depreciation \u2014 Lendscape\u2019s revenue processing method for operating leases',
+  'EIR': 'Effective Interest Rate \u2014 the method used for finance lease revenue recognition',
+  '30/360': 'Day count convention treating every month as 30 days and every year as 360 days',
+  'IAS 16': 'International Accounting Standard 16 \u2014 Property, Plant and Equipment',
+  'IAS 38': 'International Accounting Standard 38 \u2014 Intangible Assets',
+  'ASC 360': 'Accounting Standards Codification Topic 360 \u2014 Property, Plant and Equipment (US GAAP)',
+  'MACRS': 'Modified Accelerated Cost Recovery System \u2014 the US tax depreciation method with prescribed recovery periods',
+  'capital allowances': 'The UK tax system\u2019s equivalent of depreciation \u2014 statutory relief rates replace accounting depreciation',
+  'ALIR': 'Asset Level Interest Revenue \u2014 RIAD output record covering core lease economics (rental income, depreciation, NBV)',
+  'ALCR': 'Asset Level Charge Revenue \u2014 RIAD output record covering fee/charge components (e.g. IDC amortisation)',
+  'IDCs': 'Initial Direct Costs \u2014 incremental costs of negotiating and arranging a lease',
+  'TrackStraightLineAmount': 'A stateful component in RIAD that manages daily rate allocation, rounding, and final period true-up',
+  'amortisation': 'The gradual expensing of a cost (e.g. IDCs) over a defined period',
+  'deferred tax': 'A tax liability or asset arising from temporary differences between book and tax treatment'
+};
+
+function _escapeRegex(str) {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function initGlossary() {
+  const container = document.querySelector('.lesson-container');
+  if (!container) return;
+
+  // Sort terms longest-first to avoid partial matches (e.g. "finance lease" before "lease")
+  const terms = Object.keys(GLOSSARY).sort((a, b) => b.length - a.length);
+  const matched = new Set();
+
+  // Process text-containing elements (skip headings, links, code, source refs, nav)
+  const elements = container.querySelectorAll('p, li, td');
+
+  for (const el of elements) {
+    if (el.closest('.source-ref, .lesson-nav, script, h1, h2, h3, h4, h5')) continue;
+
+    let html = el.innerHTML;
+    let changed = false;
+
+    for (const term of terms) {
+      if (matched.has(term.toLowerCase())) continue;
+
+      // Match term as whole word, skipping content inside HTML tags
+      const pattern = new RegExp(
+        '(<[^>]*>)|(' + _escapeRegex(term) + ')(?![^<]*>)',
+        term === term.toUpperCase() ? 'g' : 'gi'  // case-sensitive for acronyms
+      );
+
+      let found = false;
+      const replaced = html.replace(pattern, (match, tag, word) => {
+        if (tag) return tag;
+        if (found) return match;
+        found = true;
+        return '<span class="glossary-term" data-bs-toggle="tooltip" data-bs-placement="top" title="' + GLOSSARY[term].replace(/"/g, '&quot;') + '">' + match + '</span>';
+      });
+
+      if (found) {
+        html = replaced;
+        matched.add(term.toLowerCase());
+        changed = true;
+      }
+    }
+
+    if (changed) el.innerHTML = html;
+  }
+
+  // Initialise Bootstrap tooltips
+  container.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(el => {
+    new bootstrap.Tooltip(el);
+  });
 }
 
 // ---------------------------------------------------------------------------
