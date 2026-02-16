@@ -15,6 +15,20 @@ A companion learning website for operating lease accounting, covering lessor acc
 - **Calculator** - Straight-line lease calculator with depreciation/NBV schedule and Chart.js visualisation
 - **Progress Tracking** - localStorage-based lesson completion and quiz score history
 
+## SCORM Package (LMS Upload)
+
+A SCORM 1.2 package is available for uploading to LMS platforms such as HowNow.
+
+**Build the package:**
+```bash
+bash build-scorm.sh
+```
+
+This creates `scorm-package.zip` — upload it to your LMS as a SCORM 1.2 course. The package:
+- Wraps the course in a SCORM launcher that communicates completion and quiz scores to the LMS
+- Bypasses the password gate (the LMS handles authentication)
+- Reports pass/fail based on quiz score (mastery threshold: 80%)
+
 ## Tech Stack
 
 HTML + CSS + JavaScript (no build tools). Bootstrap 5 and Chart.js loaded via CDN. Deployed directly to GitHub Pages.

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest identifier="operating-lease-training-v1"
+  xmlns="http://www.imsproject.org/xsd/imscp_rootv1p1p2"
+  xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_rootv1p2"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.imsproject.org/xsd/imscp_rootv1p1p2 imscp_rootv1p1p2.xsd
+                       http://www.imsglobal.org/xsd/imsmd_rootv1p2p1 imsmd_rootv1p2p1.xsd
+                       http://www.adlnet.org/xsd/adlcp_rootv1p2 adlcp_rootv1p2.xsd">
+
+  <metadata>
+    <schema>ADL SCORM</schema>
+    <schemaversion>1.2</schemaversion>
+  </metadata>
+
+  <organizations default="operating-lease-org">
+    <organization identifier="operating-lease-org">
+      <title>Operating Lease Accounting Training</title>
+      <item identifier="item-course" identifierref="resource-course">
+        <title>Operating Lease Accounting Training</title>
+        <adlcp:masteryscore>80</adlcp:masteryscore>
+      </item>
+    </organization>
+  </organizations>
+
+  <resources>
+    <resource identifier="resource-course" type="webcontent" adlcp:scormtype="sco" href="scorm-launcher.html">
+      <file href="scorm-launcher.html"/>
+      <file href="index.html"/>
+      <file href="js/main.js"/>
+      <file href="js/scorm-wrapper.js"/>
+      <file href="css/style.css"/>
+      <file href="lessons/01-what-is-operating-lease.html"/>
+      <file href="lessons/02-income-recognition.html"/>
+      <file href="lessons/03-depreciation-and-idcs.html"/>
+      <file href="lessons/04-revenue-table.html"/>
+      <file href="quiz/quiz.html"/>
+      <file href="calculator/calculator.html"/>
+    </resource>
+  </resources>
+
+</manifest>

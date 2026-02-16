@@ -67,6 +67,18 @@ const Auth = {
 };
 
 // ---------------------------------------------------------------------------
+// SCORM integration — report progress to LMS when running inside a SCORM package
+// ---------------------------------------------------------------------------
+function _getScorm() {
+  try {
+    if (window.SCORM && window.SCORM.isActive()) return window.SCORM;
+    if (window.parent && window.parent.SCORM && window.parent.SCORM.isActive()) return window.parent.SCORM;
+    if (window.top && window.top.SCORM && window.top.SCORM.isActive()) return window.top.SCORM;
+  } catch (e) { /* cross-origin — not in SCORM context */ }
+  return null;
+}
+
+// ---------------------------------------------------------------------------
 // Progress Tracking (localStorage)
 // ---------------------------------------------------------------------------
 const Progress = {
@@ -104,6 +116,10 @@ const Progress = {
     if (!data.quizScores) data.quizScores = [];
     data.quizScores.push({ score, total, date: new Date().toISOString() });
     this._save(data);
+
+    // Report score to SCORM LMS if available
+    const scorm = _getScorm();
+    if (scorm) scorm.reportScore(score, total);
   },
 
   /** Get best quiz score */
